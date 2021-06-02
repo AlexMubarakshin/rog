@@ -1,10 +1,10 @@
-import { Keys } from "../constants";
+
 import { GameObject, GameObjectArgs } from "./object";
 
 import { Scene } from "../scene";
 import { Character } from "./character";
 import { Sprite } from "../sprite";
-import { Input } from "../input";
+import { Keyboard, Keys } from "../input/keyboard";
 
 import { getAxisForDirection, getDirectionForKeys, getValueForDirection } from "../utils/direction";
 import { isOutOfBounds } from "../utils/collision";
@@ -17,9 +17,9 @@ export class PlayerCharacter extends Character {
         this.sprite.load();
     }
 
-    update = ({ input, scene }: { input: Input; scene: Scene }) => {
-        if (input.has(Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT)) {
-            const direction = getDirectionForKeys(input.keys);
+    update = ({ keyboard, scene }: { keyboard: Keyboard; scene: Scene }) => {
+        if (keyboard.has(Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT)) {
+            const direction = getDirectionForKeys(keyboard.keys);
             const axis = getAxisForDirection(direction);
             const value = getValueForDirection(direction);
 

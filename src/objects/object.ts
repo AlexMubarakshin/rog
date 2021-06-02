@@ -46,4 +46,11 @@ export abstract class GameObject {
         return this.x;
     }
 
+    get center() {
+        return ({
+            x: this.x - this.width / 2,
+            y: this.y - this.height / 2,
+        })
+    }
+
 }

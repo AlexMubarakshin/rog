@@ -1,19 +1,13 @@
-import { TILE_SIZE } from './constants';
+import { GameObject } from "./objects/object";
 
-import { GameObject, GameObjectArgs } from "./objects/object";
-
-import { GrassGameObject } from "./objects/grass";
-import { WallGameObject } from './objects/stone';
 import { PlayerCharacter } from './objects/player-character';
-import { Input } from './input';
 import { getCollisionObjects } from './utils/collision';
+import { Camera } from './camera';
 
-enum TerrainType {
-    GRASS = 0,
-    STONE = 1,
-}
+import { GameLoopUpdateProps } from './game';
+import { SceneGenerator } from "./scene-generator";
 
-type MapRow = number[];
+export type MapRow = number[];
 export type Map = MapRow[];
 
 export type SceneData = {
@@ -30,48 +24,15 @@ export type SceneData = {
 
 export class Scene {
 
+    private _camera: Camera;
     private _objects: GameObject[];
+
     private terrainObjects: GameObject[];
     private playerCharacter: PlayerCharacter;
     private sceneSize: { height: number; width: number; }
 
-    protected static createObject = (type: TerrainType, args: GameObjectArgs): GameObject | undefined => {
-        switch (type) {
-            case TerrainType.GRASS:
-                return new GrassGameObject(args)
-            case TerrainType.STONE:
-                return new WallGameObject(args)
-
-            default:
-                return;
-        }
-    }
-
-    protected static createObjects = (map: Map) => {
-        const objects = [];
-
-        for (let i = 0; i < map.length; i++) {
-            const mapRow = map[i];
-            for (let j = 0; j < mapRow.length; j++) {
-                const mapObj = mapRow[j];
-                if (mapObj !== undefined) {
-                    const object = Scene.createObject(mapObj, {
-                        x: i * TILE_SIZE,
-                        y: j * TILE_SIZE
-                    })
-
-                    if (object) {
-                        objects.push(object);
-                    }
-                }
-            }
-        }
-
-        return objects;
-    }
-
     constructor(data: SceneData) {
-        this.terrainObjects = Scene.createObjects(data.map);
+        this.terrainObjects = SceneGenerator.createObjects(data.map);
         this.playerCharacter = new PlayerCharacter({ x: data.playerDefaultPos.x, y: data.playerDefaultPos.y });
 
         this._objects = [
@@ -80,6 +41,9 @@ export class Scene {
         ]
 
         this.sceneSize = data.size;
+        this._camera = new Camera();
+
+        this._camera.setFollow(this.playerCharacter);
     }
 
     public hasCollision(object: GameObject) {
@@ -124,13 +88,15 @@ export class Scene {
         return this._objects;
     }
 
-    public update = (updateState: { input: Input; frame: number; }) => {
-        const state = {
-            ...updateState,
-            scene: this,
-        };
+    public get camera(): Camera {
+        return this._camera;
+    }
 
-        this._objects.forEach(obj => obj.update(state));
+    public update = (updateState: GameLoopUpdateProps) => {
+
+        this._objects.forEach(obj => obj.update(updateState));
+
+        this._camera.update(updateState.viewport);
     }
 
 }

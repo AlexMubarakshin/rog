@@ -1,15 +1,28 @@
+import { CanvasRenderer } from "./renderer/cavnas-renderer";
+
 import { Game } from "./game";
 
-function main() {
+function setupCanvas(): HTMLCanvasElement {
     const canvas = document.createElement('canvas');
     canvas.id = 'game';
 
-    canvas.height = 512;
-    canvas.width = 512;
+    canvas.height = document.body.clientHeight;
+    canvas.width = document.body.clientWidth;
+
+    const context = canvas.getContext('2d');
+    context.imageSmoothingEnabled = false;
+
+    return canvas;
+}
+
+function main() {
+    const canvas = setupCanvas();
 
     document.body.appendChild(canvas);
 
-    const game = new Game(canvas);
+    const renderer = new CanvasRenderer(canvas);
+
+    const game = new Game(renderer);
     game.start();
 }
 

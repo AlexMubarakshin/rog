@@ -1,7 +1,15 @@
-import { Keys } from "./constants";
+export enum Keys {
+    UP = 'ArrowUp',
+    RIGHT = 'ArrowRight',
+    DOWN = 'ArrowDown',
+    LEFT = 'ArrowLeft',
+    SPACE = 'Space',
+    ENTER = 'Enter',
+}
 
-export class Input {
-    private _keys: Set<Keys>;
+export class Keyboard {
+
+    private _keys: Set<Keys> = new Set();
 
     constructor() {
         this._keys = new Set();
