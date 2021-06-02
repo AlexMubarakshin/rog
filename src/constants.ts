@@ -5,8 +5,8 @@ export const CHARACTER_HEIGHT = TILE_SIZE;
 export const CHARACTER_WIDTH = CHARACTER_HEIGHT;
 
 export enum Direction {
-    UP = 0,
-    RIGHT = 1,
-    DOWN = 2,
-    LEFT = 3
-};
+  UP = 0,
+  RIGHT = 1,
+  DOWN = 2,
+  LEFT = 3
+}

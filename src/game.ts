@@ -1,59 +1,61 @@
-import { Renderer } from "./renderer/renderer"
-import { Scene } from "./scene";
-import { FirstLevel } from "./data/level-1";
-import { Keyboard } from "./input/keyboard";
-import { Pointer } from "./input/pointer";
-import { Viewport } from "./viewport";
+import { Renderer } from './core/renderer/renderer';
+import { GameScene } from './scene';
+import { FirstLevel } from './data/level-1';
+import { Keyboard } from './core/input/keyboard';
+import { Pointer } from './core/input/pointer';
+import { Viewport } from './core/viewport';
+import { Scene } from './core/scene';
 
 export type GameLoopUpdateProps = {
-    keyboard: Keyboard;
-    frame: number;
-    viewport: Viewport;
-    scene: Scene;
-    isDebug: boolean;
+  keyboard: Keyboard;
+  frame: number;
+  viewport: Viewport;
+  scene: Scene;
+  isDebug: boolean;
 };
 
 export class Game {
-    private lastFrame: number;
+  private lastFrame: number;
 
-    private scene: Scene;
-    private keyboardInput: Keyboard;
-    private pointerInput: Pointer;
+  private scene: Scene;
+  private keyboardInput: Keyboard;
+  private pointerInput: Pointer;
 
-    constructor(
-        private renderer: Renderer,
-        private _isDebug = false,
-    ) {
-        this.keyboardInput = new Keyboard();
-        this.pointerInput = new Pointer();
+  constructor(
+    private renderer: Renderer,
+    private _isDebug = false,
+  ) {
+    this.keyboardInput = new Keyboard();
+    this.pointerInput = new Pointer();
+  }
+
+  private loop = (currentFrame: number) => {
+    const frameDelta = this.lastFrame - currentFrame;
+
+    const gameLoopProps = {
+      frame: frameDelta,
+      keyboard: this.keyboardInput,
+      pointerInput: this.pointerInput,
+      viewport: this.renderer.viewport,
+      scene: this.scene,
+      isDebug: this.isDebug,
     };
 
-    private loop = (currentFrame: number) => {
-        const frameDelta = this.lastFrame - currentFrame;
+    this.scene.update(gameLoopProps);
+    this.renderer.update(gameLoopProps);
 
-        const gameLoopProps = {
-            frame: frameDelta,
-            keyboard: this.keyboardInput,
-            viewport: this.renderer.viewport,
-            scene: this.scene,
-            isDebug: this.isDebug,
-        };
+    this.lastFrame = currentFrame;
 
-        this.scene.update(gameLoopProps);
-        this.renderer.update(gameLoopProps);
+    requestAnimationFrame(this.loop);
+  }
 
-        this.lastFrame = currentFrame;
+  public start = (): void => {
+    this.scene = new GameScene(FirstLevel);
+    requestAnimationFrame(this.loop);
+  }
 
-        requestAnimationFrame(this.loop);
-    }
-
-    public start = () => {
-        this.scene = new Scene(FirstLevel);
-        requestAnimationFrame(this.loop);
-    }
-
-    public get isDebug(): boolean {
-        return this._isDebug;
-    }
+  public get isDebug(): boolean {
+    return this._isDebug;
+  }
 
 }
