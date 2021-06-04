@@ -1,10 +1,10 @@
 import { GameObject } from './core/object/object';
+import { GameLoopUpdateProps } from './core/game';
+import { Scene } from './core/scene';
 
 import { PlayerCharacter } from './objects/player-character';
 
-import { GameLoopUpdateProps } from './game';
 import { SceneGenerator } from './scene-generator';
-import { Scene } from './core/scene';
 
 export type MapRow = number[];
 export type Map = MapRow[];

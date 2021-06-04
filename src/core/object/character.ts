@@ -13,7 +13,7 @@ export class Character extends GameObject {
       this.speed = CHARACTER_SPEED;
     }
 
-    protected move = (axis: 'x' | 'y', value: number) => {
+    protected move = (axis: 'x' | 'y', value: number): void => {
       if (axis === 'x') this.x += value * this.speed;
 
       if (axis === 'y') this.y += value * this.speed;

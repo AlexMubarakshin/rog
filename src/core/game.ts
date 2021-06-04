@@ -1,10 +1,8 @@
-import { Renderer } from './core/renderer/renderer';
-import { GameScene } from './scene';
-import { FirstLevel } from './data/level-1';
-import { Keyboard } from './core/input/keyboard';
-import { Pointer } from './core/input/pointer';
-import { Viewport } from './core/viewport';
-import { Scene } from './core/scene';
+import { Keyboard } from './input/keyboard';
+import { Pointer } from './input/pointer';
+import { Renderer } from './renderer/renderer';
+import { Scene } from './scene';
+import { Viewport } from './viewport';
 
 export type GameLoopUpdateProps = {
   keyboard: Keyboard;
@@ -15,11 +13,11 @@ export type GameLoopUpdateProps = {
 };
 
 export class Game {
-  private lastFrame: number;
+  protected lastFrame: number;
 
-  private currentScene: Scene;
-  private keyboardInput: Keyboard;
-  private pointerInput: Pointer;
+  protected currentScene: Scene;
+  protected keyboardInput: Keyboard;
+  protected pointerInput: Pointer;
 
   constructor(
     private renderer: Renderer,
@@ -50,8 +48,11 @@ export class Game {
     requestAnimationFrame(this.loop);
   }
 
+  public setCurrentScene = (scene: Scene): void => {
+    this.currentScene = scene;
+  }
+
   public start = (): void => {
-    this.currentScene = new GameScene(FirstLevel);
     requestAnimationFrame(this.loop);
   }
 

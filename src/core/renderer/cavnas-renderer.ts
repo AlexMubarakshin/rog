@@ -1,6 +1,6 @@
 import { Viewport } from '../viewport';
 import { Renderer } from './renderer';
-import { GameLoopUpdateProps } from '../../game';
+import { GameLoopUpdateProps } from '../game';
 
 export class CanvasRenderer extends Renderer {
   private context: CanvasRenderingContext2D;

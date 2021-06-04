@@ -12,11 +12,19 @@ export class Camera extends Rectangle {
   constructor() {
     super(0, 0);
 
-    this._zoom = 2;
+    this._zoom = 1;
   }
 
   get isFollowing(): boolean {
     return !!this.followingObj;
+  }
+
+  get zoom(): number {
+    return this._zoom;
+  }
+
+  set zoom(value: number) {
+    this.zoom = value;
   }
 
   public setFollow = (obj?: GameObject): void => {
@@ -26,9 +34,9 @@ export class Camera extends Rectangle {
   public update = (viewport: Viewport): void => {
     if (!this.isFollowing) return;
 
-    this.width = viewport.width;
-    this.height = viewport.height;
-    this.x = this.followingObj.center.x;
-    this.y = this.followingObj.center.y;
+    this._width = viewport.width;
+    this._height = viewport.height;
+    this._x = this.followingObj.center.x;
+    this._y = this.followingObj.center.y;
   }
 }

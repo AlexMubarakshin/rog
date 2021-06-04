@@ -1,6 +1,9 @@
 import { CanvasRenderer } from './core/renderer/cavnas-renderer';
 
-import { Game } from './game';
+import { Game } from './core/game';
+
+import { GameScene } from './scene';
+import { FirstLevel } from './data/level-1';
 
 function setupCanvas(): HTMLCanvasElement {
   const canvas = document.createElement('canvas');
@@ -14,18 +17,33 @@ function setupCanvas(): HTMLCanvasElement {
 
   return canvas;
 }
+class Rog {
 
-function main() {
-  const canvas = setupCanvas();
+  private game: Game;
 
-  document.body.appendChild(canvas);
+  constructor() {
+    this.init();
+  }
 
-  const renderer = new CanvasRenderer(canvas);
+  init = () => {
+    const canvas = setupCanvas();
 
-  const game = new Game(renderer);
-  game.start();
+    document.body.appendChild(canvas);
+
+    const renderer = new CanvasRenderer(canvas);
+
+    this.game = new Game(renderer);
+    this.game.setCurrentScene(new GameScene(FirstLevel));
+  }
+
+  start = () => {
+    this.game.start();
+  }
+
 }
 
+
 (() => {
-  main();
+  const rog = new Rog();
+  rog.start();
 })();

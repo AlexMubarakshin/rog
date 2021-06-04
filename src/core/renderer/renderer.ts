@@ -1,5 +1,5 @@
 import { Viewport } from '../viewport';
-import { GameLoopUpdateProps } from '../../game';
+import { GameLoopUpdateProps } from '../game';
 
 export abstract class Renderer {
 
