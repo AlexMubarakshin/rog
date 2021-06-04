@@ -17,7 +17,7 @@ export type GameLoopUpdateProps = {
 export class Game {
   private lastFrame: number;
 
-  private scene: Scene;
+  private currentScene: Scene;
   private keyboardInput: Keyboard;
   private pointerInput: Pointer;
 
@@ -37,12 +37,13 @@ export class Game {
       keyboard: this.keyboardInput,
       pointerInput: this.pointerInput,
       viewport: this.renderer.viewport,
-      scene: this.scene,
+      scene: this.currentScene,
       isDebug: this.isDebug,
     };
 
-    this.scene.update(gameLoopProps);
-    this.renderer.update(gameLoopProps);
+    this.currentScene.update(gameLoopProps);
+
+    this.renderer.draw(gameLoopProps);
 
     this.lastFrame = currentFrame;
 
@@ -50,7 +51,7 @@ export class Game {
   }
 
   public start = (): void => {
-    this.scene = new GameScene(FirstLevel);
+    this.currentScene = new GameScene(FirstLevel);
     requestAnimationFrame(this.loop);
   }
 

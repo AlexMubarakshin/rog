@@ -30,19 +30,19 @@ export abstract class GameObject {
 
     public hit = () => { }
 
-    get top() {
+    get top(): number {
       return this.y;
     }
 
-    get right() {
+    get right(): number {
       return this.x + this.width;
     }
 
-    get bottom() {
+    get bottom(): number {
       return this.y + this.height;
     }
 
-    get left() {
+    get left(): number {
       return this.x;
     }
 

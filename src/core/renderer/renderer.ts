@@ -1,14 +1,11 @@
 import { Viewport } from '../viewport';
-import { Scene } from '../scene';
 import { GameLoopUpdateProps } from '../../game';
 
 export abstract class Renderer {
 
   protected _viewport: Viewport;
 
-  public abstract update = (props: GameLoopUpdateProps): void => { }
-
-  protected abstract renderScene = (scene: Scene, isDebug: boolean): void => { }
+  public abstract draw = (props: GameLoopUpdateProps): void => { }
 
   protected abstract clear = (): void => { }
 

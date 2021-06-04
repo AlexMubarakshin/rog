@@ -1,5 +1,4 @@
 import { Viewport } from '../viewport';
-import { Scene } from '../scene';
 import { Renderer } from './renderer';
 import { GameLoopUpdateProps } from '../../game';
 
@@ -16,23 +15,20 @@ export class CanvasRenderer extends Renderer {
     this._viewport = new Viewport(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  public update = ({ scene, isDebug }: GameLoopUpdateProps): void => {
+  public draw = ({ scene, isDebug }: GameLoopUpdateProps): void => {
     this.clear();
 
-    this.renderScene(scene, isDebug);
-  }
-
-  protected renderScene = (scene: Scene, isDebug: boolean): void => {
     const camera = scene.camera;
+
+    this.context.save();
+
+    this.context.translate(-camera.x + camera.width / 2, -camera.y + camera.height / 2);
 
     scene.objects.forEach((obj) => {
       if (!obj.sprite) return;
 
-      this.context.save();
-
-
-      const x = obj.x - camera.x;
-      const y = obj.y - camera.y;
+      const x = obj.x;
+      const y = obj.y;
 
       const width = obj.width;
       const height = obj.height;
@@ -51,15 +47,10 @@ export class CanvasRenderer extends Renderer {
         this.context.strokeStyle = '#ff449f';
         this.context.strokeRect(x + 1, y + 1, width - 2, height - 2);
       }
-      this.context.restore();
+
     });
 
-
-    if (isDebug) {
-      this.context.lineWidth = 1;
-      this.context.strokeStyle = '#bf1363';
-      this.context.strokeRect(camera.x, camera.y, this.viewport.width, this.viewport.height);
-    }
+    this.context.restore();
   }
 
   protected clear = (): void => {

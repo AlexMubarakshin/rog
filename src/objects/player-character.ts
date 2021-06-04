@@ -17,20 +17,20 @@ export class PlayerCharacter extends Character {
     this.sprite.load();
   }
 
-    update = ({ keyboard, scene }: { keyboard: Keyboard; scene: Scene }) => {
-      if (keyboard.has(Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT)) {
-        const direction = getDirectionForKeys(keyboard.keys);
-        const axis = getAxisForDirection(direction);
-        const value = getValueForDirection(direction);
+  update = ({ keyboard, scene }: { keyboard: Keyboard; scene: Scene }): void => {
+    if (keyboard.has(Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT)) {
+      const direction = getDirectionForKeys(keyboard.keys);
+      const axis = getAxisForDirection(direction);
+      const value = getValueForDirection(direction);
 
-        this.move(axis, value);
+      this.move(axis, value);
 
-        const _isOutOfBounds = isOutOfBounds(this, scene);
-        const _hasCollision = scene.hasCollision(this);
+      const _isOutOfBounds = isOutOfBounds(this, scene);
+      const _hasCollision = scene.hasCollision(this);
 
-        if (_isOutOfBounds || _hasCollision) {
-          this.move(axis, -value);
-        }
+      if (_isOutOfBounds || _hasCollision) {
+        this.move(axis, -value);
       }
     }
+  }
 }
