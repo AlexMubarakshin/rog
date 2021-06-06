@@ -1,8 +1,15 @@
+import { Vector2 } from '../geometry/vector2';
+
+import { GameObject } from '../object/object';
+
+import { Label } from '../drawable/label';
+import { Sprite } from '../drawable/sprite';
+
 import { Viewport } from '../viewport';
 import { Renderer } from './renderer';
-import { GameLoopUpdateProps } from '../game';
 
 export class CanvasRenderer extends Renderer {
+
   private context: CanvasRenderingContext2D;
 
   constructor(
@@ -35,47 +42,75 @@ export class CanvasRenderer extends Renderer {
     this._viewport = new Viewport(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  public draw({ scene, isDebug }: GameLoopUpdateProps): void {
-    this.clear();
+  protected clear = (): void => {
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
 
-    const camera = scene.camera;
+  public draw(objects: GameObject[], isDebug?: boolean): void {
+
+    this.clear();
 
     this.context.save();
 
-    this.context.translate(-camera.x + camera.width / 2, -camera.y + camera.height / 2);
-
-    scene.objects.forEach((obj) => {
+    objects.forEach((obj) => {
       if (!obj.visible) return;
+      this.context.save();
 
-      const { x, y } = obj.position;
-
-      const width = obj.width;
-      const height = obj.height;
-
-      if (obj.sprite) {
-        this.context.drawImage(
-          obj.sprite.image,
-          x,
-          y,
-          width,
-          height,
-        );
+      if (this.camera) {
+        this.context.translate(-this.camera.x + this.camera.width / 2, -this.camera.y + this.camera.height / 2);
       }
+
+      obj.draw(this);
 
       if (isDebug) {
-        this.context.fillText(`X: ${x}`, obj.position.x, obj.position.y + 8, width);
-        this.context.fillText(`Y: ${y}`, obj.position.x, obj.position.y + 24, width);
-        this.context.lineWidth = 1;
-        this.context.strokeStyle = '#ff449f';
-        this.context.strokeRect(x + 0, y + 0, width, height);
+        this.drawDebug(obj);
       }
 
+      this.context.restore();
     });
+
+  }
+
+  public drawImage(image: Sprite, position: Vector2, width?: number, height?: number): void {
+    this.context.save();
+
+    this.context.drawImage(
+      image.image,
+      position.x,
+      position.y,
+      width,
+      height,
+    );
 
     this.context.restore();
   }
 
-  protected clear = (): void => {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  public drawLabel(label: Label, position: Vector2, width?: number, height?: number): void {
+    this.context.save();
+
+    if (label.visible) {
+      this.context.textBaseline = 'top';
+      this.context.font = '14px Arial';
+      this.context.fillStyle = label.color;
+
+      this.context.fillText(label.value, position.x, position.y, width);
+    }
+
+    this.context.restore();
   }
+
+  public drawDebug(obj: GameObject): void {
+    const { width, height, position: { x, y } } = obj;
+
+    this.context.save();
+
+    this.context.fillText(`X: ${x}`, obj.position.x, obj.position.y + 8, width);
+    this.context.fillText(`Y: ${y}`, obj.position.x, obj.position.y + 24, width);
+    this.context.lineWidth = 1;
+    this.context.strokeStyle = '#ff449f';
+    this.context.strokeRect(x + 0, y + 0, width, height);
+
+    this.context.restore();
+  }
+
 }

@@ -1,5 +1,5 @@
 import { TILE_SIZE } from './constants';
-import { SimpleObject } from './core/object/simple-object';
+import { SimpleObject } from './objects/simple-object';
 import { GameObject, GameObjectArgs } from './core/object/object';
 import { Vector2 } from './core/geometry/vector2';
 

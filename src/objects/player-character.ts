@@ -1,23 +1,27 @@
+import { Game } from '../core/game';
+import { Renderer } from '../core/renderer/renderer';
 
 import { GameObjectArgs } from '../core/object/object';
 
-import { Scene } from '../core/scene';
 import { Character } from '../core/object/character';
-import { Sprite } from '../core/sprite';
-import { Keyboard } from '../core/input/keyboard';
+import { Sprite } from '../core/drawable/sprite';
 import { Keys } from '../core/system/keys';
 
 import { getAxisForDirection, getDirectionForKeys, getValueForDirection } from '../core/utils/direction';
 import { isOutOfBounds } from '../core/utils/collision';
-
 export class PlayerCharacter extends Character {
+
   constructor(args: GameObjectArgs) {
     super(args);
 
     this.sprite = new Sprite('character.png');
   }
 
-  update = ({ keyboard, scene }: { keyboard: Keyboard; scene: Scene }): void => {
+  public draw(renderer: Renderer): void {
+    renderer.drawImage(this.sprite, this.position, this.width, this.height);
+  }
+
+  public update({ keyboard, scene }: Game, delta: number): void {
     if (keyboard.has(Keys.UP, Keys.RIGHT, Keys.DOWN, Keys.LEFT)) {
       const direction = getDirectionForKeys(keyboard.keys);
       const axis = getAxisForDirection(direction);

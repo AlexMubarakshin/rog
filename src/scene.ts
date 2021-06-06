@@ -1,6 +1,7 @@
+import { Camera } from './core/camera';
+import { Game } from './core/game';
 import { Vector2 } from './core/geometry/vector2';
 import { GameObject } from './core/object/object';
-import { GameLoopUpdateProps } from './core/game';
 import { Scene } from './core/scene';
 
 import { PlayerCharacter } from './objects/player-character';
@@ -27,7 +28,7 @@ export class GameScene extends Scene {
   private terrainObjects: GameObject[];
   private playerCharacter: PlayerCharacter;
 
-  constructor(data: SceneData) {
+  constructor(data: SceneData, camera: Camera) {
     super(data);
 
     this.terrainObjects = SceneGenerator.createObjects(data);
@@ -40,11 +41,11 @@ export class GameScene extends Scene {
       this.playerCharacter,
     ]);
 
-    this.camera.setFollow(this.playerCharacter);
+    camera.setFollow(this.playerCharacter);
   }
 
-  public update(updateState: GameLoopUpdateProps): void {
-    super.update(updateState);
+  public update(game: Game, delta: number): void {
+    super.update(game, delta);
   }
 
 }

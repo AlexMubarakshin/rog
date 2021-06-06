@@ -1,11 +1,13 @@
 import { CanvasRenderer } from './core/renderer/cavnas-renderer';
 
 import { Game } from './core/game';
+import { Camera } from './core/camera';
 
 import { GameScene } from './scene';
 import { FirstLevel } from './data/level-1';
 
-const ressources = ['character.png', 'grass.png', 'stone.png', 'wood.png'];
+const resources = ['character.png', 'grass.png', 'stone.png', 'wood.png'];
+
 class Rog {
 
   private game: Game;
@@ -36,15 +38,16 @@ class Rog {
 
     document.body.appendChild(canvas);
 
+    const basicCamera = new Camera();
     const renderer = new CanvasRenderer(canvas);
 
-    this.game = Game.getInstance().init(renderer, this._debug);
+    this.game = Game.getInstance().init(renderer, basicCamera, this._debug);
   }
 
   start = () => {
-    this.game.loadAssets(ressources)
+    this.game.loadAssets(resources)
       .finally(() => {
-        this.game.setCurrentScene(new GameScene(FirstLevel));
+        this.game.setCurrentScene(new GameScene(FirstLevel, this.game.camera));
         this.game.start();
       });
   }

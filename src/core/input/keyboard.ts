@@ -38,7 +38,7 @@ export class Keyboard {
     });
   }
 
-  public has(...arg): boolean {
+  public has(...arg: Keys[]): boolean {
     return Array.isArray(arg) ?
       arg.some(key => this._keys.has(key)) :
       this._keys.has(arg);

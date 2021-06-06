@@ -1,5 +1,7 @@
+import { Game } from '../game';
 import { Vector2 } from '../geometry/vector2';
-import { Sprite } from '../sprite';
+import { Sprite } from '../drawable/sprite';
+import { Renderer } from '../renderer/renderer';
 
 export type GameObjectArgs = Partial<{
   position: Vector2;
@@ -28,7 +30,9 @@ export abstract class GameObject {
     this.visible = visible;
   }
 
-  public update(...args: any[]) { }
+  public draw(renderer: Renderer) { }
+
+  public update(game: Game, delta: number) { }
 
   public hit() { }
 

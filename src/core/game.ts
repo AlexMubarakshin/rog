@@ -3,16 +3,7 @@ import { Loader } from './loader/loader';
 import { Pointer } from './input/pointer';
 import { Renderer } from './renderer/renderer';
 import { Scene } from './scene';
-import { Viewport } from './viewport';
-
-export type GameLoopUpdateProps = {
-  keyboard: Keyboard;
-  pointer: Pointer;
-  frame: number;
-  viewport: Viewport;
-  scene: Scene;
-  isDebug: boolean;
-};
+import { Camera } from './camera';
 
 export class Game {
   private static instance: Game;
@@ -31,14 +22,43 @@ export class Game {
   private _lastFrame: number;
 
   private _currentScene: Scene;
+  private _camera: Camera;
+
+  public get camera(): Camera {
+    return this._camera;
+  }
+
+  public set camera(value: Camera) {
+    this._camera = value;
+  }
+
   private _keyboardInput: Keyboard;
   private _pointerInput: Pointer;
 
   private constructor() { }
 
-  public init(renderer: Renderer, isDebug: boolean): Game {
+  public get scene(): Scene {
+    return this._currentScene;
+  }
+
+  public get keyboard(): Keyboard {
+    return this._keyboardInput;
+  }
+
+  public get pointer(): Pointer {
+    return this._pointerInput;
+  }
+
+  public get renderer(): Renderer {
+    return this._renderer;
+  }
+
+  public init(renderer: Renderer, camera: Camera, isDebug: boolean): Game {
     this._renderer = renderer;
     this._isDebug = isDebug;
+    this._camera = camera;
+
+    this.renderer.camera = this.camera;
 
     this._keyboardInput = new Keyboard();
     this._pointerInput = new Pointer();
@@ -54,20 +74,12 @@ export class Game {
   }
 
   private loop = (currentFrame: number) => {
-    const frameDelta = this._lastFrame - currentFrame;
+    const delta = this._lastFrame - currentFrame;
 
-    const gameLoopProps: GameLoopUpdateProps = {
-      frame: frameDelta,
-      keyboard: this._keyboardInput,
-      pointer: this._pointerInput,
-      viewport: this._renderer.viewport,
-      scene: this._currentScene,
-      isDebug: this.isDebug,
-    };
+    this._camera.update(this.renderer.viewport, delta);
+    this._currentScene.update(this, delta);
 
-    this._currentScene.update(gameLoopProps);
-
-    this._renderer.draw(gameLoopProps);
+    this._currentScene.draw(this._renderer);
 
     this._lastFrame = currentFrame;
 

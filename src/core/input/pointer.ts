@@ -44,6 +44,7 @@ export class Pointer {
   }
 
   public hover(obj: GameObject): boolean {
+    // TODO: Implement hover logic
     return false;
   }
 }

@@ -1,105 +1,102 @@
 import { Camera } from './camera';
-import { GameLoopUpdateProps } from './game';
+import { Game } from './game';
 
 import { GameObject } from './object/object';
+import { Renderer } from './renderer/renderer';
 import { getCollisionObjects } from './utils/collision';
 
 export type MapRow = number[];
 export type Map = MapRow[];
 
 export type SceneData = {
-    map: Map;
-    playerDefaultPos: {
-        x: number;
-        y: number;
-    },
-    size: {
-        height: number;
-        width: number;
-    }
+  map: Map;
+  playerDefaultPos: {
+    x: number;
+    y: number;
+  },
+  size: {
+    height: number;
+    width: number;
+  }
 }
 
 export abstract class Scene {
-    private _camera: Camera;
 
-    private _objects: GameObject[];
+  private _objects: GameObject[];
 
-    private sceneSize: { height: number; width: number; }
+  private sceneSize: { height: number; width: number; }
 
-    constructor(data: SceneData) {
-      this.sceneSize = data.size;
-      this._objects = [];
-      this._camera = new Camera();
+  constructor(data: SceneData) {
+    this.sceneSize = data.size;
+    this._objects = [];
 
-      this.addObject = this.addObject.bind(this);
-      this.addObjects = this.addObjects.bind(this);
-      this.update = this.update.bind(this);
-      this.hasCollision = this.hasCollision.bind(this);
-      this.getCollision = this.getCollision.bind(this);
+    this.addObject = this.addObject.bind(this);
+    this.addObjects = this.addObjects.bind(this);
+    this.update = this.update.bind(this);
+    this.hasCollision = this.hasCollision.bind(this);
+    this.getCollision = this.getCollision.bind(this);
+  }
+
+  public hasCollision(object: GameObject): boolean {
+    const collision = this.getCollision(object);
+
+    return Boolean(collision);
+  }
+
+  public getCollision(object: GameObject): { objects: Set<GameObject> } {
+    const collisionObjects = getCollisionObjects(object, this.objects);
+
+    if (collisionObjects.size > 0) {
+      return { objects: collisionObjects };
     }
+  }
 
-    public hasCollision(object: GameObject): boolean {
-      const collision = this.getCollision(object);
+  public addObject(obj: GameObject): GameObject[] {
+    this._objects.push(obj);
 
-      return Boolean(collision);
-    }
+    return this._objects;
+  }
 
-    public getCollision(object: GameObject): { objects: Set<GameObject> } {
-      const collisionObjects = getCollisionObjects(object, this.objects);
+  public addObjects(objs: GameObject[]): GameObject[] {
+    objs.forEach(this.addObject);
 
-      if (collisionObjects.size > 0) {
-        return { objects: collisionObjects };
-      }
-    }
+    return this._objects;
+  }
 
-    public addObject(obj: GameObject): GameObject[] {
-      this._objects.push(obj);
+  get width(): number {
+    return this.sceneSize.width;
+  }
 
-      return this._objects;
-    }
+  get height(): number {
+    return this.sceneSize.height;
+  }
 
-    public addObjects(objs: GameObject[]): GameObject[] {
-      objs.forEach(this.addObject);
+  get top(): number {
+    return 0;
+  }
 
-      return this._objects;
-    }
+  get right(): number {
+    return this.width;
+  }
 
-    get width(): number {
-      return this.sceneSize.width;
-    }
+  get bottom(): number {
+    return this.height;
+  }
 
-    get height(): number {
-      return this.sceneSize.height;
-    }
+  get left(): number {
+    return 0;
+  }
 
-    get top(): number {
-      return 0;
-    }
+  public get objects(): GameObject[] {
+    return this._objects;
+  }
 
-    get right(): number {
-      return this.width;
-    }
+  public update(game: Game, deltaTime: number): void {
+    this._objects.forEach(obj => obj.update(game, deltaTime));
+  }
 
-    get bottom(): number {
-      return this.height;
-    }
-
-    get left(): number {
-      return 0;
-    }
-
-    public get objects(): GameObject[] {
-      return this._objects;
-    }
-
-    public update(updateState: GameLoopUpdateProps): void {
-      this._objects.forEach(obj => obj.update(updateState));
-
-      this.camera.update(updateState.viewport);
-    }
-
-    public get camera(): Camera {
-      return this._camera;
-    }
+  public draw(renderer: Renderer): void {
+    renderer.draw(this.objects);
+  }
 
 }

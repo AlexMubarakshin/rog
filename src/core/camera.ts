@@ -2,7 +2,6 @@ import { Viewport } from './viewport';
 import { GameObject } from './object/object';
 import { Rectangle } from './geometry/rectangle';
 
-
 export class Camera extends Rectangle {
 
   private followingObj: GameObject;
@@ -31,7 +30,7 @@ export class Camera extends Rectangle {
     this.followingObj = obj;
   }
 
-  public update = (viewport: Viewport): void => {
+  public update = (viewport: Viewport, delta: number): void => {
     if (!this.isFollowing) return;
 
     this._width = viewport.width;
@@ -39,4 +38,5 @@ export class Camera extends Rectangle {
     this._x = this.followingObj.center.x;
     this._y = this.followingObj.center.y;
   }
+
 }
