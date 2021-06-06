@@ -1,11 +1,4 @@
-export enum Keys {
-  UP = 'ArrowUp',
-  RIGHT = 'ArrowRight',
-  DOWN = 'ArrowDown',
-  LEFT = 'ArrowLeft',
-  SPACE = 'Space',
-  ENTER = 'Enter',
-}
+import { Keys } from '../system/keys';
 
 export class Keyboard {
 
@@ -45,7 +38,7 @@ export class Keyboard {
     });
   }
 
-  has(...arg): boolean {
+  public has(...arg): boolean {
     return Array.isArray(arg) ?
       arg.some(key => this._keys.has(key)) :
       this._keys.has(arg);

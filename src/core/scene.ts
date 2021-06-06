@@ -1,6 +1,5 @@
 import { Camera } from './camera';
-
-import { GameLoopUpdateProps } from '../game';
+import { GameLoopUpdateProps } from './game';
 
 import { GameObject } from './object/object';
 import { getCollisionObjects } from './utils/collision';

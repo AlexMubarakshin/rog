@@ -14,8 +14,8 @@ export class Character extends GameObject {
     }
 
     protected move = (axis: 'x' | 'y', value: number): void => {
-      if (axis === 'x') this.x += value * this.speed;
+      if (axis === 'x') this.position.x += value * this.speed;
 
-      if (axis === 'y') this.y += value * this.speed;
+      if (axis === 'y') this.position.y += value * this.speed;
     }
 }

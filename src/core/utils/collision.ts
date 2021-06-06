@@ -2,7 +2,7 @@
 import { Scene } from '../scene';
 import { GameObject } from '../object/object';
 
-export function isOutOfBounds(object: GameObject, scene: Scene) {
+export function isOutOfBounds(object: GameObject, scene: Scene): boolean {
   return (
     object.top < scene.top ||
         object.right > scene.right ||

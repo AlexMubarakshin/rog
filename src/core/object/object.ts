@@ -1,56 +1,55 @@
+import { Vector2 } from '../geometry/vector2';
 import { Sprite } from '../sprite';
 
 export type GameObjectArgs = Partial<{
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-    sprite: Sprite;
-    collidable: boolean;
+  position: Vector2;
+  width: number;
+  height: number;
+  sprite: Sprite;
+  collidable?: boolean;
+  visible?: boolean;
 }>
 
 export abstract class GameObject {
-    x: number;
-    y: number;
-    height: number;
-    width: number;
-    sprite: Sprite;
-    collidable: boolean;
+  position: Vector2;
 
-    constructor({ x, y, height, width, sprite, collidable = true }: GameObjectArgs = {}) {
-      this.x = x;
-      this.y = y;
-      this.height = height;
-      this.width = width;
-      this.sprite = sprite;
-      this.collidable = collidable;
-    }
+  height: number;
+  width: number;
+  sprite: Sprite;
+  collidable: boolean;
+  visible: boolean;
 
-    public update = (...args: any[]) => { }
+  constructor({ position, height, width, sprite, collidable = true, visible = true }: GameObjectArgs = {}) {
+    this.position = position;
+    this.height = height;
+    this.width = width;
+    this.sprite = sprite;
+    this.collidable = collidable;
+    this.visible = visible;
+  }
 
-    public hit = () => { }
+  public update(...args: any[]) { }
 
-    get top(): number {
-      return this.y;
-    }
+  public hit() { }
 
-    get right(): number {
-      return this.x + this.width;
-    }
+  get top(): number {
+    return this.position.y;
+  }
 
-    get bottom(): number {
-      return this.y + this.height;
-    }
+  get right(): number {
+    return this.position.x + this.width;
+  }
 
-    get left(): number {
-      return this.x;
-    }
+  get bottom(): number {
+    return this.position.y + this.height;
+  }
 
-    get center() {
-      return ({
-        x: this.x - this.width / 2,
-        y: this.y - this.height / 2,
-      });
-    }
+  get left(): number {
+    return this.position.x;
+  }
+
+  get center(): Vector2 {
+    return new Vector2(this.position.x - this.width / 2, this.position.y - this.height / 2);
+  }
 
 }

@@ -1,4 +1,5 @@
-import { Keys } from '../input/keyboard';
+
+import { Keys } from '../system/keys';
 import { Direction } from '../../constants';
 
 export function getAxisForDirection(direction: Direction): 'x' | 'y' {

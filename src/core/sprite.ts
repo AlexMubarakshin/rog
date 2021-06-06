@@ -1,25 +1,22 @@
+import { Game } from './game';
+
 export class Sprite {
-    private _image: HTMLImageElement;
+  private _image: HTMLImageElement;
 
-    constructor(
-        private _src: string,
-    ) {
-      this._image = new Image();
-    }
+  constructor(
+    private _src: string,
+  ) {
+    const cached = Game.getInstance().loader.getAssetFromChache(_src);
 
-    async load(): Promise<Sprite> {
-      return new Promise((resolve) => {
-        this._image.src = this._src;
-        this._image.addEventListener('load', () => resolve(this));
-      });
-    }
+    this._image = cached;
+  }
 
-    get src(): string {
-      return this._src;
-    }
+  get src(): string {
+    return this._src;
+  }
 
-    get image(): HTMLImageElement {
-      return this._image;
-    }
+  get image(): HTMLImageElement {
+    return this._image;
+  }
 
 }

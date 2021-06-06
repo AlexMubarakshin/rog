@@ -2,7 +2,7 @@ import { Sprite } from '../sprite';
 import { GameObject, GameObjectArgs } from './object';
 
 export type SimpleObjectArgs = {
-    spirteUrl?: string;
+  spirteUrl?: string;
 } & Omit<GameObjectArgs, 'sprite'>
 
 export class SimpleObject extends GameObject {
@@ -11,7 +11,6 @@ export class SimpleObject extends GameObject {
 
     if (args.spirteUrl) {
       this.sprite = new Sprite(args.spirteUrl);
-      this.sprite.load();
     }
   }
 }

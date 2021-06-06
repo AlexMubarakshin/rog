@@ -4,7 +4,8 @@ import { GameObjectArgs } from '../core/object/object';
 import { Scene } from '../core/scene';
 import { Character } from '../core/object/character';
 import { Sprite } from '../core/sprite';
-import { Keyboard, Keys } from '../core/input/keyboard';
+import { Keyboard } from '../core/input/keyboard';
+import { Keys } from '../core/system/keys';
 
 import { getAxisForDirection, getDirectionForKeys, getValueForDirection } from '../core/utils/direction';
 import { isOutOfBounds } from '../core/utils/collision';
@@ -14,7 +15,6 @@ export class PlayerCharacter extends Character {
     super(args);
 
     this.sprite = new Sprite('character.png');
-    this.sprite.load();
   }
 
   update = ({ keyboard, scene }: { keyboard: Keyboard; scene: Scene }): void => {

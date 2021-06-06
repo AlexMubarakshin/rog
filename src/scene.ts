@@ -1,3 +1,4 @@
+import { Vector2 } from './core/geometry/vector2';
 import { GameObject } from './core/object/object';
 import { GameLoopUpdateProps } from './core/game';
 import { Scene } from './core/scene';
@@ -29,8 +30,10 @@ export class GameScene extends Scene {
   constructor(data: SceneData) {
     super(data);
 
-    this.terrainObjects = SceneGenerator.createObjects(data.map);
-    this.playerCharacter = new PlayerCharacter({ x: data.playerDefaultPos.x, y: data.playerDefaultPos.y });
+    this.terrainObjects = SceneGenerator.createObjects(data);
+    this.playerCharacter = new PlayerCharacter({
+      position: new Vector2(data.playerDefaultPos.x, data.playerDefaultPos.y),
+    });
 
     this.addObjects([
       ...this.terrainObjects,

@@ -1,11 +1,14 @@
 import { TILE_SIZE } from './constants';
 import { SimpleObject } from './core/object/simple-object';
 import { GameObject, GameObjectArgs } from './core/object/object';
-import { Map } from './scene';
+import { Vector2 } from './core/geometry/vector2';
+
+import { SceneData } from './scene';
 
 enum MapObjectType {
   GRASS = 0,
   STONE = 1,
+  WOOD = 2,
 }
 
 export class SceneGenerator {
@@ -31,12 +34,22 @@ export class SceneGenerator {
           width: TILE_SIZE,
         });
 
+      case MapObjectType.WOOD:
+        return new SimpleObject({
+          ...args,
+          spirteUrl: 'wood.png',
+          collidable: false,
+
+          height: TILE_SIZE,
+          width: TILE_SIZE,
+        });
+
       default:
-        return;
+        return null;
     }
   }
 
-  public static createObjects = (map: Map): GameObject[] => {
+  public static createObjects = ({ map }: SceneData): GameObject[] => {
     const objects = [];
 
     for (let i = 0; i < map.length; i++) {
@@ -45,8 +58,7 @@ export class SceneGenerator {
         const mapObj = mapRow[j];
         if (mapObj !== undefined) {
           const object = SceneGenerator.createObject(mapObj, {
-            x: i * TILE_SIZE,
-            y: j * TILE_SIZE
+            position: new Vector2(i * TILE_SIZE, j * TILE_SIZE)
           });
 
           if (object) {

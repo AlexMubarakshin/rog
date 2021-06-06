@@ -5,9 +5,9 @@ export abstract class Renderer {
 
   protected _viewport: Viewport;
 
-  public abstract draw = (props: GameLoopUpdateProps): void => { }
+  public abstract draw(props: GameLoopUpdateProps): void;
 
-  protected abstract clear = (): void => { }
+  protected abstract clear(): void;
 
   public get viewport(): Viewport {
     return this._viewport;
