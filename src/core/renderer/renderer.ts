@@ -6,8 +6,8 @@ import { GameObject } from '../object/object';
 import { Camera } from '../camera';
 import { Viewport } from '../viewport';
 
-import { Sprite } from '../drawable/sprite';
-import { Label } from '../drawable/label';
+import { Sprite } from '../object/sprite';
+import { Label } from '../object/label';
 
 
 export abstract class Renderer {
@@ -19,7 +19,7 @@ export abstract class Renderer {
 
   public abstract draw(objects: GameObject[], isDebug?: boolean): void;
   public abstract drawImage(image: Sprite, position: Vector2, width?: number, height?: number): void;
-  public abstract drawLabel(label: Label, position: Vector2, width?: number, height?: number): void;
+  public abstract drawLabel(label: Label): void;
 
   protected abstract clear(): void;
 

@@ -1,5 +1,5 @@
 import { Renderer } from '../core/renderer/renderer';
-import { Sprite } from '../core/drawable/sprite';
+import { Sprite } from '../core/object/sprite';
 import { GameObject, GameObjectArgs } from '../core/object/object';
 
 export type SimpleObjectArgs = {
@@ -7,17 +7,23 @@ export type SimpleObjectArgs = {
 } & Omit<GameObjectArgs, 'sprite'>
 
 export class SimpleObject extends GameObject {
+  private _sprite: Sprite;
+
   constructor(args: SimpleObjectArgs) {
     super(args);
 
     if (args.spirteUrl) {
-      this.sprite = new Sprite(args.spirteUrl);
+      this._sprite = new Sprite(args.spirteUrl);
     }
   }
 
+  public get sprite(): Sprite {
+    return this._sprite;
+  }
+
   public draw(renderer: Renderer): void {
-    if (this.sprite) {
-      renderer.drawImage(this.sprite, this.position, this.width, this.height);
+    if (this._sprite) {
+      renderer.drawImage(this._sprite, this.position, this.width, this.height);
     }
   }
 

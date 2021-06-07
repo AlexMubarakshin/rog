@@ -1,6 +1,8 @@
 # rog
 
-Playing with canvas
+ROG - is the 2D game engine for the browser, written in TypeScript.
+
+The goal of creating an engine is to learn how to create game engines. ✌️
 
 ## Installation
 

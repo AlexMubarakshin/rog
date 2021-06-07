@@ -2,8 +2,8 @@ import { Vector2 } from '../geometry/vector2';
 
 import { GameObject } from '../object/object';
 
-import { Label } from '../drawable/label';
-import { Sprite } from '../drawable/sprite';
+import { Label } from '../object/label';
+import { Sprite } from '../object/sprite';
 
 import { Viewport } from '../viewport';
 import { Renderer } from './renderer';
@@ -85,10 +85,11 @@ export class CanvasRenderer extends Renderer {
     this.context.restore();
   }
 
-  public drawLabel(label: Label, position: Vector2, width?: number, height?: number): void {
+  public drawLabel(label: Label): void {
     this.context.save();
 
     if (label.visible) {
+      const { position, width } = label;
       this.context.textBaseline = 'top';
       this.context.font = '14px Arial';
       this.context.fillStyle = label.color;
@@ -100,15 +101,15 @@ export class CanvasRenderer extends Renderer {
   }
 
   public drawDebug(obj: GameObject): void {
-    const { width, height, position: { x, y } } = obj;
+    const { width, height, position } = obj;
 
     this.context.save();
 
-    this.context.fillText(`X: ${x}`, obj.position.x, obj.position.y + 8, width);
-    this.context.fillText(`Y: ${y}`, obj.position.x, obj.position.y + 24, width);
+    this.context.fillText(`X: ${position.x}`, obj.position.x, obj.position.y + 8, width);
+    this.context.fillText(`Y: ${position.y}`, obj.position.x, obj.position.y + 24, width);
     this.context.lineWidth = 1;
     this.context.strokeStyle = '#ff449f';
-    this.context.strokeRect(x + 0, y + 0, width, height);
+    this.context.strokeRect(position.x + 0, position.y + 0, width, height);
 
     this.context.restore();
   }

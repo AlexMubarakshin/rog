@@ -1,4 +1,3 @@
-import { Camera } from './camera';
 import { Game } from './game';
 
 import { GameObject } from './object/object';
@@ -95,8 +94,8 @@ export abstract class Scene {
     this._objects.forEach(obj => obj.update(game, deltaTime));
   }
 
-  public draw(renderer: Renderer): void {
-    renderer.draw(this.objects);
+  public draw(renderer: Renderer, isDebug?: boolean): void {
+    renderer.draw(this.objects, isDebug);
   }
 
 }

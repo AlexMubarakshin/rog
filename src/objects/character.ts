@@ -1,5 +1,5 @@
-import { CHARACTER_HEIGHT, CHARACTER_SPEED, CHARACTER_WIDTH } from '../../constants';
-import { GameObject, GameObjectArgs } from './object';
+import { CHARACTER_HEIGHT, CHARACTER_SPEED, CHARACTER_WIDTH } from '../constants';
+import { GameObject, GameObjectArgs } from '../core/object/object';
 
 export class Character extends GameObject {
     private speed: number;

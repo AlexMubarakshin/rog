@@ -79,7 +79,7 @@ export class Game {
     this._camera.update(this.renderer.viewport, delta);
     this._currentScene.update(this, delta);
 
-    this._currentScene.draw(this._renderer);
+    this._currentScene.draw(this._renderer, this._isDebug);
 
     this._lastFrame = currentFrame;
 

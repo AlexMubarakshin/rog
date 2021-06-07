@@ -1,13 +1,11 @@
 import { Game } from '../game';
 import { Vector2 } from '../geometry/vector2';
-import { Sprite } from '../drawable/sprite';
 import { Renderer } from '../renderer/renderer';
 
 export type GameObjectArgs = Partial<{
   position: Vector2;
   width: number;
   height: number;
-  sprite: Sprite;
   collidable?: boolean;
   visible?: boolean;
 }>
@@ -17,15 +15,20 @@ export abstract class GameObject {
 
   height: number;
   width: number;
-  sprite: Sprite;
   collidable: boolean;
   visible: boolean;
 
-  constructor({ position, height, width, sprite, collidable = true, visible = true }: GameObjectArgs = {}) {
+  constructor({
+    position = Vector2.zero,
+    height,
+    width,
+    collidable = true,
+    visible = true,
+  }: GameObjectArgs = {}) {
     this.position = position;
     this.height = height;
     this.width = width;
-    this.sprite = sprite;
+
     this.collidable = collidable;
     this.visible = visible;
   }
