@@ -1,10 +1,10 @@
 import { Game } from '../core/game';
 import { Renderer } from '../core/renderer/renderer';
 
-import { GameObjectArgs } from '../core/object/object';
+import { GameObjectArgs } from '../core/components/object/object';
 
 import { Character } from './character';
-import { Sprite } from '../core/object/sprite';
+import { Sprite } from '../core/components/drawable/sprite';
 import { Keys } from '../core/system/keys';
 
 import { getAxisForDirection, getDirectionForKeys, getValueForDirection } from '../core/utils/direction';
@@ -15,7 +15,12 @@ export class PlayerCharacter extends Character {
   constructor(args: GameObjectArgs) {
     super(args);
 
-    this._sprite = new Sprite('character.png');
+    this._sprite = new Sprite({
+      src: 'character.png',
+      position: this.position,
+      height: this.height,
+      width: this.width,
+    });
   }
 
   public get sprite(): Sprite {
@@ -23,7 +28,7 @@ export class PlayerCharacter extends Character {
   }
 
   public draw(renderer: Renderer): void {
-    renderer.drawImage(this._sprite, this.position, this.width, this.height);
+    this._sprite.draw(renderer);
   }
 
   public update({ keyboard, scene }: Game, delta: number): void {
@@ -40,6 +45,8 @@ export class PlayerCharacter extends Character {
       if (_isOutOfBounds || _hasCollision) {
         this.move(axis, -value);
       }
+
+      this.sprite.position = this.position;
     }
   }
 }

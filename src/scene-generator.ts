@@ -1,6 +1,6 @@
 import { TILE_SIZE } from './constants';
-import { SimpleObject } from './objects/simple-object';
-import { GameObject, GameObjectArgs } from './core/object/object';
+import { MapObject } from './objects/map-object';
+import { GameObject, GameObjectArgs } from './core/components/object/object';
 import { Vector2 } from './core/geometry/vector2';
 
 import { SceneData } from './scene';
@@ -15,7 +15,7 @@ export class SceneGenerator {
   public static createObject = (type: MapObjectType, args: GameObjectArgs): GameObject | undefined => {
     switch (type) {
       case MapObjectType.GRASS:
-        return new SimpleObject({
+        return new MapObject({
           ...args,
           spirteUrl: 'grass.png',
           collidable: false,
@@ -25,7 +25,7 @@ export class SceneGenerator {
         });
 
       case MapObjectType.STONE:
-        return new SimpleObject({
+        return new MapObject({
           ...args,
           spirteUrl: 'stone.png',
           collidable: true,
@@ -35,7 +35,7 @@ export class SceneGenerator {
         });
 
       case MapObjectType.WOOD:
-        return new SimpleObject({
+        return new MapObject({
           ...args,
           spirteUrl: 'wood.png',
           collidable: false,

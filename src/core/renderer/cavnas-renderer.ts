@@ -1,9 +1,7 @@
-import { Vector2 } from '../geometry/vector2';
+import { GameObject } from '../components/object/object';
 
-import { GameObject } from '../object/object';
-
-import { Label } from '../object/label';
-import { Sprite } from '../object/sprite';
+import { Label } from '../components/drawable/label';
+import { Sprite } from '../components/drawable/sprite';
 
 import { Viewport } from '../viewport';
 import { Renderer } from './renderer';
@@ -54,6 +52,7 @@ export class CanvasRenderer extends Renderer {
 
     objects.forEach((obj) => {
       if (!obj.visible) return;
+
       this.context.save();
 
       if (this.camera) {
@@ -71,31 +70,33 @@ export class CanvasRenderer extends Renderer {
 
   }
 
-  public drawImage(image: Sprite, position: Vector2, width?: number, height?: number): void {
+  public drawImage(image: Sprite): void {
+    if (!image.visible) return null;
+
     this.context.save();
 
     this.context.drawImage(
       image.image,
-      position.x,
-      position.y,
-      width,
-      height,
+      image.position.x,
+      image.position.y,
+      image.width,
+      image.height,
     );
 
     this.context.restore();
   }
 
   public drawLabel(label: Label): void {
+    if (!label.visible) return null;
+
     this.context.save();
 
-    if (label.visible) {
-      const { position, width } = label;
-      this.context.textBaseline = 'top';
-      this.context.font = '14px Arial';
-      this.context.fillStyle = label.color;
+    const { position, width } = label;
+    this.context.textBaseline = 'top';
+    this.context.font = '14px Arial';
+    this.context.fillStyle = label.color;
 
-      this.context.fillText(label.value, position.x, position.y, width);
-    }
+    this.context.fillText(label.value, position.x, position.y, width);
 
     this.context.restore();
   }

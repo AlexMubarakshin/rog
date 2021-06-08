@@ -1,24 +1,21 @@
 
-import { Vector2 } from '../geometry/vector2';
-
-import { GameObject } from '../object/object';
-
 import { Camera } from '../camera';
 import { Viewport } from '../viewport';
 
-import { Sprite } from '../object/sprite';
-import { Label } from '../object/label';
-
+import { Drawable } from '../components/drawable/drawable';
+import { Sprite } from '../components/drawable/sprite';
+import { Label } from '../components/drawable/label';
 
 export abstract class Renderer {
 
   private _camera: Camera;
   protected _viewport: Viewport;
 
-  public abstract drawDebug(obj: GameObject): void;
+  public abstract drawDebug(obj: Drawable): void;
 
-  public abstract draw(objects: GameObject[], isDebug?: boolean): void;
-  public abstract drawImage(image: Sprite, position: Vector2, width?: number, height?: number): void;
+  public abstract draw(objects: Drawable[], isDebug?: boolean): void;
+
+  public abstract drawImage(image: Sprite): void;
   public abstract drawLabel(label: Label): void;
 
   protected abstract clear(): void;

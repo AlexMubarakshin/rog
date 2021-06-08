@@ -1,6 +1,6 @@
 import { Game } from './game';
 
-import { GameObject } from './object/object';
+import { GameObject } from './components/object/object';
 import { Renderer } from './renderer/renderer';
 import { getCollisionObjects } from './utils/collision';
 
@@ -91,7 +91,11 @@ export abstract class Scene {
   }
 
   public update(game: Game, deltaTime: number): void {
-    this._objects.forEach(obj => obj.update(game, deltaTime));
+    this._objects.forEach(obj => {
+      if (obj.update) {
+        obj.update(game, deltaTime);
+      }
+    });
   }
 
   public draw(renderer: Renderer, isDebug?: boolean): void {

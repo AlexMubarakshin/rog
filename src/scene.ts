@@ -1,13 +1,14 @@
-import { Label } from './core/object/label';
+import { Label } from './core/components/drawable/label';
 import { Camera } from './core/camera';
 import { Game } from './core/game';
 import { Vector2 } from './core/geometry/vector2';
-import { GameObject } from './core/object/object';
+import { GameObject } from './core/components/object/object';
 import { Scene } from './core/scene';
 
 import { PlayerCharacter } from './objects/player-character';
 
 import { SceneGenerator } from './scene-generator';
+import { DrawableObject } from './core/components/object/drawable';
 
 export type MapRow = number[];
 export type Map = MapRow[];
@@ -44,10 +45,13 @@ export class GameScene extends Scene {
       position: new Vector2(0, -16),
     });
 
+
+    const textGameObject = new DrawableObject(simpleText);
+
     this.addObjects([
       ...this.terrainObjects,
       this.playerCharacter,
-      simpleText,
+      textGameObject,
     ]);
 
     camera.setFollow(this.playerCharacter);

@@ -1,5 +1,5 @@
 import { Viewport } from './viewport';
-import { GameObject } from './object/object';
+import { GameObject } from './components/object/object';
 import { Rectangle } from './geometry/rectangle';
 
 export class Camera extends Rectangle {

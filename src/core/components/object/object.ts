@@ -1,6 +1,7 @@
-import { Game } from '../game';
-import { Vector2 } from '../geometry/vector2';
-import { Renderer } from '../renderer/renderer';
+import { Game } from '../../game';
+import { Vector2 } from '../../geometry/vector2';
+
+import { Drawable } from '../drawable/drawable';
 
 export type GameObjectArgs = Partial<{
   position: Vector2;
@@ -10,13 +11,12 @@ export type GameObjectArgs = Partial<{
   visible?: boolean;
 }>
 
-export abstract class GameObject {
+export abstract class GameObject extends Drawable {
   position: Vector2;
 
   height: number;
   width: number;
   collidable: boolean;
-  visible: boolean;
 
   constructor({
     position = Vector2.zero,
@@ -25,6 +25,8 @@ export abstract class GameObject {
     collidable = true,
     visible = true,
   }: GameObjectArgs = {}) {
+    super();
+
     this.position = position;
     this.height = height;
     this.width = width;
@@ -33,11 +35,9 @@ export abstract class GameObject {
     this.visible = visible;
   }
 
-  public draw(renderer: Renderer) { }
-
-  public update(game: Game, delta: number) { }
-
-  public hit() { }
+  public update(game: Game, delta: number): void {
+    return null;
+  }
 
   get top(): number {
     return this.position.y;

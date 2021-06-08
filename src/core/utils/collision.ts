@@ -1,6 +1,6 @@
 
 import { Scene } from '../scene';
-import { GameObject } from '../object/object';
+import { GameObject } from '../components/object/object';
 
 export function isOutOfBounds(object: GameObject, scene: Scene): boolean {
   return (

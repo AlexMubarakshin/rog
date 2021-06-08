@@ -1,5 +1,5 @@
 import { Vector2 } from '../geometry/vector2';
-import { GameObject } from '../object/object';
+import { GameObject } from '../components/object/object';
 
 export class Pointer {
   private _pos: Vector2;
