@@ -24,7 +24,7 @@ export class Label extends Drawable {
   public height: number;
   public width: number;
 
-  constructor(config: LabelConfig) {
+  constructor(config: LabelConfig = {}) {
     super();
 
     const {

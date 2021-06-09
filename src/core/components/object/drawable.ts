@@ -4,10 +4,10 @@ import { GameObject } from './object';
 import { Renderer } from '../../renderer/renderer';
 import { Drawable } from '../drawable/drawable';
 
-export class DrawableObject extends GameObject {
+export class DrawableObject<T extends Drawable> extends GameObject {
 
   constructor(
-    public drawable: Drawable,
+    public drawable: T,
   ) {
     super({
       position: drawable.position,

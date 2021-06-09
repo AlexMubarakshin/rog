@@ -1,5 +1,10 @@
 import { Game } from '../../game';
+
+import { Renderer } from '../../renderer/renderer';
+
+import { Rectangle } from '../../geometry/rectangle';
 import { Vector2 } from '../../geometry/vector2';
+import { Shape } from '../../geometry/shape';
 
 import { Drawable } from '../drawable/drawable';
 
@@ -34,10 +39,14 @@ export abstract class GameObject extends Drawable {
     this.collidable = collidable;
     this.visible = visible;
   }
+  public draw(renderer: Renderer): void {
+    return null;
+  }
 
   public update(game: Game, delta: number): void {
     return null;
   }
+
 
   get top(): number {
     return this.position.y;
@@ -57,6 +66,10 @@ export abstract class GameObject extends Drawable {
 
   get center(): Vector2 {
     return new Vector2(this.position.x - this.width / 2, this.position.y - this.height / 2);
+  }
+
+  get bound(): Shape {
+    return new Rectangle(this.left, this.top, this.width, this.height);
   }
 
 }

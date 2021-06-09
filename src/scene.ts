@@ -30,6 +30,8 @@ export class GameScene extends Scene {
   private terrainObjects: GameObject[];
   private playerCharacter: PlayerCharacter;
 
+  private mousePosLabel: DrawableObject<Label>;
+
   constructor(data: SceneData, camera: Camera) {
     super(data);
 
@@ -45,12 +47,17 @@ export class GameScene extends Scene {
       position: new Vector2(0, -16),
     });
 
+    this.mousePosLabel = new DrawableObject(new Label({
+      color: '#e5d549',
+      width: 300,
+    }));
 
     const textGameObject = new DrawableObject(simpleText);
 
     this.addObjects([
       ...this.terrainObjects,
       this.playerCharacter,
+      this.mousePosLabel,
       textGameObject,
     ]);
 
@@ -59,6 +66,11 @@ export class GameScene extends Scene {
 
   public update(game: Game, delta: number): void {
     super.update(game, delta);
+
+    this.mousePosLabel.position.copy(game.pointer.lastPos);
+    this.mousePosLabel.drawable.position.copy(game.pointer.lastPos);
+
+    this.mousePosLabel.drawable.value = `X: ${game.pointer.lastPos.x} Y: ${game.pointer.lastPos.y}`;
   }
 
 }

@@ -1,3 +1,4 @@
+import { Game } from '../game';
 import { Vector2 } from '../geometry/vector2';
 import { GameObject } from '../components/object/object';
 
@@ -26,25 +27,40 @@ export class Pointer {
     return this._pos;
   }
 
+  public static getMousePositionRelativeToCamera(e: MouseEvent): Vector2 {
+    const { camera, renderer } = Game.getInstance();
+
+    const x = e.pageX - renderer.viewport.left - (-camera.x + camera.width / 2);
+    const y = e.pageY - renderer.viewport.top - (-camera.y + camera.height / 2);
+
+    return new Vector2(x, y);
+  }
+
   private onPointerMove = (e: MouseEvent) => {
-    this._pos.x = e.x;
-    this._pos.y = e.y;
+    const pos = Pointer.getMousePositionRelativeToCamera(e);
+
+    this._pos.copy(pos);
+
+    console.log(this._pos);
   }
 
   private onPointerUp = (e: MouseEvent) => {
-    this._pos.x = e.x;
-    this._pos.y = e.y;
+    const pos = Pointer.getMousePositionRelativeToCamera(e);
+
+    this._pos.copy(pos);
+
     this._isDown = false;
   }
 
   private onPointerDown = (e: MouseEvent) => {
-    this._pos.x = e.x;
-    this._pos.y = e.y;
+    const pos = Pointer.getMousePositionRelativeToCamera(e);
+
+    this._pos.copy(pos);
+
     this._isDown = true;
   }
 
   public hover(obj: GameObject): boolean {
-    // TODO: Implement hover logic
-    return false;
+    return obj.bound.contains(this._pos);
   }
 }
