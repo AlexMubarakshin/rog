@@ -16,6 +16,8 @@ export class Game {
     return Game.instance;
   }
 
+  private _running = false;
+  private _animationFrameId: number;
   private _renderer: Renderer;
   private _isDebug = false;
   private _loader: Loader;
@@ -77,13 +79,18 @@ export class Game {
     const delta = this._lastFrame - currentFrame;
 
     this._camera.update(this.renderer.viewport, delta);
-    this._currentScene.update(this, delta);
 
-    this._currentScene.draw(this._renderer, this._isDebug);
+    if (this._currentScene) {
+      this._currentScene.update(this, delta);
+
+      this._currentScene.draw(this._renderer, this._isDebug);
+    }
 
     this._lastFrame = currentFrame;
 
-    requestAnimationFrame(this.loop);
+    if (this._running) {
+      this._animationFrameId = requestAnimationFrame(this.loop);
+    }
   }
 
   public setCurrentScene = (scene: Scene): void => {
@@ -91,7 +98,17 @@ export class Game {
   }
 
   public start = (): void => {
+    this._running = true;
+
     requestAnimationFrame(this.loop);
+  }
+
+  public stop = (): void => {
+    this._running = false;
+
+    if (this._animationFrameId) {
+      cancelAnimationFrame(this._animationFrameId);
+    }
   }
 
   public get loader(): Loader {

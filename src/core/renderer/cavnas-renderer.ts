@@ -42,6 +42,8 @@ export class CanvasRenderer extends Renderer {
 
   protected clear = (): void => {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.context.fillStyle = '#000000';
+    this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   public draw(objects: GameObject[], isDebug?: boolean): void {

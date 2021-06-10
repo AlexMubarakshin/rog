@@ -6,7 +6,7 @@ import { Camera } from './core/camera';
 import { GameScene } from './scene';
 import { FirstLevel } from './data/level-1';
 
-const resources = ['character.png', 'grass.png', 'stone.png', 'wood.png'];
+const resources = ['character.png', 'grass.png', 'stone.png', 'wood.png', 'guy.png'];
 
 class Rog {
 

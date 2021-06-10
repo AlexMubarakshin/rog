@@ -39,6 +39,7 @@ export abstract class GameObject extends Drawable {
     this.collidable = collidable;
     this.visible = visible;
   }
+
   public draw(renderer: Renderer): void {
     return null;
   }
