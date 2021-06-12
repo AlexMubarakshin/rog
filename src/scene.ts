@@ -6,43 +6,25 @@ import { GameObject } from './core/components/object/object';
 import { Scene } from './core/scene';
 
 import { PlayerCharacter } from './objects/player-character';
-import { SomeGuy } from './objects/guy';
 
-import { SceneGenerator } from './scene-generator';
+import { SceneData, SceneGenerator } from './scene-generator';
 import { DrawableObject } from './core/components/object/drawable';
-
-export type MapRow = number[];
-export type Map = MapRow[];
-
-export type SceneData = {
-  map: Map;
-  playerDefaultPos: {
-    x: number;
-    y: number;
-  },
-  size: {
-    height: number;
-    width: number;
-  }
-}
 
 export class GameScene extends Scene {
 
   private terrainObjects: GameObject[];
   private playerCharacter: PlayerCharacter;
-
-  private someGuy: SomeGuy;
+  private npcs: GameObject[];
 
   constructor(data: SceneData, camera: Camera) {
-    super(data);
+    super(data.size);
 
     this.terrainObjects = SceneGenerator.createObjects(data);
+    this.npcs = SceneGenerator.createNpcs(data);
 
     this.playerCharacter = new PlayerCharacter({
       position: new Vector2(data.playerDefaultPos.x, data.playerDefaultPos.y),
     });
-
-    this.someGuy = new SomeGuy();
 
     const simpleText = new Label({
       value: 'Welcome to the test scene of my own game engine',
@@ -54,9 +36,9 @@ export class GameScene extends Scene {
 
     this.addObjects([
       ...this.terrainObjects,
+      ...this.npcs,
       this.playerCharacter,
       textGameObject,
-      this.someGuy,
     ]);
 
     camera.setFollow(this.playerCharacter);

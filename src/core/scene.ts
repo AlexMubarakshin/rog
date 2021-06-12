@@ -4,29 +4,13 @@ import { GameObject } from './components/object/object';
 import { Renderer } from './renderer/renderer';
 import { getCollisionObjects } from './utils/collision';
 
-export type MapRow = number[];
-export type Map = MapRow[];
-
-export type SceneData = {
-  map: Map;
-  playerDefaultPos: {
-    x: number;
-    y: number;
-  },
-  size: {
-    height: number;
-    width: number;
-  }
-}
-
 export abstract class Scene {
 
   private _objects: GameObject[];
 
-  private sceneSize: { height: number; width: number; }
-
-  constructor(data: SceneData) {
-    this.sceneSize = data.size;
+  constructor(
+    private sceneSize: { height: number; width: number; }
+  ) {
     this._objects = [];
 
     this.addObject = this.addObject.bind(this);
